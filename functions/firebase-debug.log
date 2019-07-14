@@ -1,0 +1,56 @@
+[debug] [2019-07-14T15:37:03.485Z] ----------------------------------------------------------------------
+[debug] [2019-07-14T15:37:03.500Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-07-14T15:37:03.500Z] CLI Version:   7.0.2
+[debug] [2019-07-14T15:37:03.500Z] Platform:      win32
+[debug] [2019-07-14T15:37:03.500Z] Node Version:  v8.16.0
+[debug] [2019-07-14T15:37:03.500Z] Time:          Sun Jul 14 2019 12:37:03 GMT-0300 (Hora estándar de Argentina)
+[debug] [2019-07-14T15:37:03.500Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-07-14T15:37:03.575Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-07-14T15:37:03.590Z] > authorizing via signed-in user
+[debug] [2019-07-14T15:37:03.590Z] [iam] checking project instacool-40dag for permissions ["firebase.projects.get"]
+[debug] [2019-07-14T15:37:03.590Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-07-14T15:37:03.590Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-07-14T15:37:03.992Z] <<< HTTP RESPONSE 200
+[debug] [2019-07-14T15:37:04.105Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/instacool-40dag:testIamPermissions  
+
+[debug] [2019-07-14T15:37:05.384Z] <<< HTTP RESPONSE 200
+[debug] [2019-07-14T15:37:05.389Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/instacool-40dag  
+ 
+[debug] [2019-07-14T15:37:06.590Z] <<< HTTP RESPONSE 200
+[info] +  functions: Using node@8 from host.
+[debug] [2019-07-14T15:37:06.622Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/852766673332:getServerAppConfig  
+ 
+[debug] [2019-07-14T15:37:07.059Z] <<< HTTP RESPONSE 200
+[info] +  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "C:\Users\Diego\Desktop\Cursos React\Proyectos\instacool\functions" for Cloud Functions...
+[debug] [2019-07-14T15:37:10.730Z] Functions runtime initialized.
+[debug] [2019-07-14T15:37:10.730Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-07-14T15:37:11.278Z] firebase-admin has been stubbed.
+[info] i  functions: HTTP trigger initialized at http://localhost:5000/instacool-40dag/us-central1/api
+[debug] [2019-07-14T15:39:02.607Z] Accepted request GET /instacool-40dag/us-central1/api/posts --> api
+[debug] [2019-07-14T15:39:05.651Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "api"
+[debug] [2019-07-14T15:39:05.651Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-07-14T15:39:06.370Z] firebase-admin has been stubbed.
+[debug] [2019-07-14T15:39:09.516Z] Trigger "api" has been found, beginning invocation!
+[debug] [2019-07-14T15:39:09.517Z] 
+[debug] [2019-07-14T15:39:09.518Z] Running api in mode HTTPS
+[debug] [2019-07-14T15:39:09.541Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\Diego\\Desktop\\Cursos React\\Proyectos\\instacool\\functions\\5572"}
+[debug] [2019-07-14T15:39:09.547Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\Diego\\Desktop\\Cursos React\\Proyectos\\instacool\\functions\\5572"}
+[debug] [2019-07-14T15:39:09.564Z] Ephemeral server used!
+[debug] [2019-07-14T15:39:09.565Z] Bodyundefined
+[debug] [2019-07-14T15:39:09.608Z] Ephemeral server survived.
+[info] >  Uid del doc: 5SMszRfxN5T8JbH0CfzmgtmepQ52
+[info] >  email del doc: diego@gmail.com
+[info] i  functions: Finished "api" in ~1s
+[debug] [2019-07-14T16:19:45.284Z] File C:\Users\Diego\Desktop\Cursos React\Proyectos\instacool\functions\src\createServer.ts changed, reloading triggers
+[debug] [2019-07-14T16:20:07.988Z] Functions runtime initialized.
+[debug] [2019-07-14T16:20:07.988Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-07-14T16:20:11.927Z] firebase-admin has been stubbed.
+[debug] [2019-07-14T16:24:34.745Z] File C:\Users\Diego\Desktop\Cursos React\Proyectos\instacool\functions\src\createServer.ts changed, reloading triggers
+[debug] [2019-07-14T16:24:34.807Z] File C:\Users\Diego\Desktop\Cursos React\Proyectos\instacool\functions\src\createServer.ts changed, reloading triggers
+[debug] [2019-07-14T16:24:40.275Z] Functions runtime initialized.
+[debug] [2019-07-14T16:24:40.275Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-07-14T16:24:40.877Z] firebase-admin has been stubbed.

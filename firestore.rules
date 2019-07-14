@@ -1,0 +1,10 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{user} {
+      allow write: if request.resource.data.role == 'user';
+    }
+    match /posts/{post} {
+      allow list: if request.auth.uid != null;
+    }
+  }
+}
