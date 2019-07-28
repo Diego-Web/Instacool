@@ -1,11 +1,13 @@
 import {firestore} from 'firebase';
 import { AnyAction, Dispatch } from 'redux';
 import { IServices } from '../services';
+import * as utils from '../utils';
 
 // Definicion de tipos para nuestras acciones
 const START = 'posts/fetch-start'
 const SUCCESS = 'posts/fetch-success'
 const ERROR = 'posts/fetch-error'
+const ADD = 'posts/add' // va a ser de tipo post y accion add
 
 // creamos una interfaz para indicar que tipo de datos es payload
 export interface IDataPosts {
@@ -29,7 +31,10 @@ const fetchError = (error: Error) => ({
     error,
     type: ERROR,
 })
-
+const add = (payload: IDataPosts) => ({
+    payload,
+    type: ADD,
+})
 // definimos el estado inicial: contiene data, fetched y fetching
 // los dos ultimos porque traemos nuestros datos cuando estamos en la ruta de  newsfeed
 
@@ -69,6 +74,14 @@ export default function reducer(state = initialState, action: AnyAction){
                 ...state,
                 error: action.error,
                 fetching: false,
+            }
+        case ADD:  // lo podemos usar para dos casos: agregar un nuevo objeto o en caso de existir se reemplaza
+            return{
+                ...state,
+                data: {
+                    ...state.data, // tenemos una copia del estado
+                    ...action.payload, // hacemos un destructuring del payload
+                }
             }           
         default:
            return state
@@ -119,24 +132,54 @@ async (dispatch: Dispatch, getState: () => any, {db, storage}: IServices) => {
 
 // definimos los dos thunks de like y share
 export const like = (id: string) => 
-        async (dispatch: Dispatch, getState: () => any, { auth }: IServices) =>{
+    async (dispatch: Dispatch, getState: () => any, { auth }: IServices) =>{
         if (!auth.currentUser){
             return
         }
         const token = await auth.currentUser.getIdToken()       
-        // C87 - Conectando react con backend + C88 agregar token auth
-        const result = await fetch('/api/posts', {
+        // C87 - Conectando react con backend + C88 agregar token auth  
+        // C89 - Agregamos un template string con el id del post seguido de la accion que queremos ejecutar
+        // accion = like    
+        // const result = para prueba va la linea de abajo
+        await fetch(`/api/posts/${id}/like`, {           
             headers: {
                 authorization: token
             }
         })
-        const text = await result.text()
+        /*  const text = await result.text()
         // tslint:disable-next-line: no-console
-        console.log(text)
+        console.log(text) */ 
     }
 
 export const share = (id: string) => 
-    async (dispatch: Dispatch, getState: () => any, {}: IServices) =>{
-// tslint:disable-next-line: no-console
-        console.log(id)
+    async (dispatch: Dispatch, getState: () => any, { auth, db, storage }: IServices) =>{
+        /* // tslint:disable-next-line: no-console
+        console.log(id) */       
+        if (!auth.currentUser){
+            return
+        }
+        const token = await auth.currentUser.getIdToken()       
+        const result = await fetch(`/api/posts/${id}/share`, {           
+            headers: {
+                authorization: token
+            }
+        })
+        // generamos la referencia de la imagen
+        const url = await storage.ref(`posts/${id}.jpg`).getDownloadURL()
+        const blob = await utils.download(url) // descarga el archivo y luego vamos a poder subirlo con el id que nos devuelve la peticion de abajo
+        const {id: postId}: {id: string} = await result.json()
+        const ref = storage.ref(`posts/${postId}.jpg`) // le indicamos que puede guardar el archivo que va a recibir un blob
+        if (blob instanceof Blob){
+        // SOLUCION PARCIAL, EL IF NO DEBERIA IR
+            await ref.put(blob)
+        }                 
+        const imageURL = await ref.getDownloadURL()
+        const snap = await db.collection('posts').doc(postId).get()
+        // const newPost = snap.data() // tenemos el nuevo post y podemos agregarlo a nuestro reducer.
+        
+        dispatch(add({ [snap.id]: {
+            ...snap.data(), // para pasar imageURL transformamos un objeto que hace destructuring 
+            imageURL,
+        } } as IDataPosts)) // esto actualiza el post
     }
+    // Falta refactorizar like y share para que quede una unica funcion
