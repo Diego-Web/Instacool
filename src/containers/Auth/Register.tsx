@@ -6,6 +6,7 @@ import Title from '../../components/Title';
 
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import {IState} from '../../ducks'
 import {ILogin, register as registerThunk} from '../../ducks/Users'
 
 interface IRegisterProps {
@@ -35,7 +36,7 @@ class Register extends React.Component<IRegisterProps>{
         <Link to = '/'>Iniciar sesión</Link>                        
     </Center>  */}
 
-const mapStateToProps = (state:any) => state
+const mapStateToProps = (state:IState) => state
 
 const mapDispachToProps = (dispatch:ThunkDispatch<any, any, any>) => ({
 register: (payload:any) => dispatch(registerThunk(payload))

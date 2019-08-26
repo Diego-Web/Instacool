@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import Container from '../../components/Container'
 import Post from '../../components/Post'
+import {IState} from '../../ducks'
 import * as postsDuck from '../../ducks/Posts'
 
 interface INewsFeedProps {
@@ -61,7 +62,7 @@ class NewsFeed extends React.Component<INewsFeedProps>{
 
 
 // agregado en clase 76
-const mapStateToProps = (state : any) => {
+const mapStateToProps = (state : IState) => {
     const { Posts: {data, fetched, fetching}} = state
     const loading = fetching || !fetched
     // cuando retornemos el estado vamos a traer solamente loading pero tambien fetched

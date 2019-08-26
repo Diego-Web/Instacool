@@ -1,7 +1,7 @@
 import {firestore} from 'firebase';
 import { AnyAction, Dispatch } from 'redux';
 import { IServices } from '../services';
-import * as utils from '../utils';
+import { download } from '../utils';
 
 // Definicion de tipos para nuestras acciones
 const START = 'posts/fetch-start'
@@ -9,14 +9,16 @@ const SUCCESS = 'posts/fetch-success'
 const ERROR = 'posts/fetch-error'
 const ADD = 'posts/add' // va a ser de tipo post y accion add
 
+// creamos interfaz de Post (para compartir los post - C93)
+export interface IPost{
+    comment: string,
+    userId: string,
+    createdAt: firestore.Timestamp
+    imageURL: string
+}
 // creamos una interfaz para indicar que tipo de datos es payload
 export interface IDataPosts {
-    [key: string]:{
-        comment: string,
-        userId: string,
-        createdAt: firestore.Timestamp
-        imageURL: string
-    }
+    [key: string]: IPost
 }
 
 // Definimos nuestros actions creators
@@ -166,12 +168,14 @@ export const share = (id: string) =>
         })
         // generamos la referencia de la imagen
         const url = await storage.ref(`posts/${id}.jpg`).getDownloadURL()
-        const blob = await utils.download(url) // descarga el archivo y luego vamos a poder subirlo con el id que nos devuelve la peticion de abajo
+        const blob = await download(url) // descarga el archivo y luego vamos a poder subirlo con el id que nos devuelve la peticion de abajo
         const {id: postId}: {id: string} = await result.json()
         const ref = storage.ref(`posts/${postId}.jpg`) // le indicamos que puede guardar el archivo que va a recibir un blob
         if (blob instanceof Blob){
         // SOLUCION PARCIAL, EL IF NO DEBERIA IR
             await ref.put(blob)
+            // tslint:disable-next-line: no-console
+            console.log('tomo blob!!!:)')
         }                 
         const imageURL = await ref.getDownloadURL()
         const snap = await db.collection('posts').doc(postId).get()
@@ -183,3 +187,4 @@ export const share = (id: string) =>
         } } as IDataPosts)) // esto actualiza el post
     }
     // Falta refactorizar like y share para que quede una unica funcion
+

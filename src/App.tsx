@@ -11,6 +11,7 @@ import services from './services'
 
 interface IAppProps{
   history: History,
+  loadInitialData: () => void
 }
 
 class App extends React.Component <IAppProps>{
@@ -19,8 +20,12 @@ class App extends React.Component <IAppProps>{
   }
   public  componentDidMount(){
     const {auth} = services    
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(user => {      
       if (user){
+        // el usuario se esta registrando o iniciando sesion con exito.
+        const { loadInitialData} = this.props
+        loadInitialData()
+        // ahora tenemos que inyectarle esta propiedad (loadInitialData)desde nuestro archivo index.tsx 
         if (['/','/register'].indexOf(location.pathname) > -1){
           const {history} = this.props
           history.push('/app/newsfeed')
